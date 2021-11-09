@@ -3,9 +3,8 @@
  */
 const mqtt = require('mqtt');
 const config = require('./config.json');
-const express = require('express');
 const fs = require('fs');
-require('./TTnTools.js');
+
 
 // Globals
 const path_latest = "./data/latest.json";
@@ -37,30 +36,25 @@ client.on('error', function(err) {
 
 //MQTT Callback on message received
 client.on('message', function (topic, message) {
-    console.log(topic + ": " + message.toString());
-    fs.writeFileSync(path_latest,message.toString());
-    storeIncomingMessage(message);
+  fs.writeFileSync(path_latest,message);
+  console.log(transform(JSON.parse(message)));
 })
 
-/***
- * Setup Express Webserver
+/**
+ * Transform TTN JSON object to read and storage friendly object
+ * @param {TTN JSON Object} ttndata 
+ * @returns APP JSON Object
  */
-const app = express()
-app.use(express.static('public'));
+ function transform(ttndata){
 
-app.get('/api/latest', (req, res) => {
-    
-   try{
-        let rawdata = fs.readFileSync(path_latest);
-        let data = JSON.parse(rawdata);
-        res.send(data);
-    }catch(error){
-        console.log(error);
-        res.send('{}')
-    } 
-    
-  })
+  const deviceid      = ttndata.end_device_ids.device_id;
+  const timestamp     = ttndata.received_at;
+  const payload       = ttndata.uplink_message.decoded_payload;
+  const package = {
+      deviceid,
+      timestamp,
+      payload
+  };
+  return package;
 
-app.listen(config.http_port, () => {
-  console.log(`Example app listening at http://localhost:${config.http_port}`)
-})
+}

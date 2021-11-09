@@ -3,8 +3,6 @@
         "mqtt_username"     : "dbd-lab@ttn",
         "mqtt_password"     : "NNSXS.RHYOUK4YGQHYYF5ONOKOIJRU6BZSSNMGYMJ2UBY.OF52MO2UN42JZDA3G5MBQX37ZE6OJG6TLYMOIMPOVDU2CI7XBETQ",
         "mqtt_server"       : "mqtt://eu1.cloud.thethings.network",
-        "mqtt_topic"        : "#",
-
-        "http_port"         : "4000"
+        "mqtt_topic"        : "#"
     }
     
