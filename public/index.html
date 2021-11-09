@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Graph QL Demo</title>
+    <meta property="og:title" content="Graph QL Demo">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <script>
+
+        //My Function
+        async function myFunction() {
+
+            const response = await fetch('/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query: "{ hello }" })
+            });
+
+            const content = await response.json();
+            console.log(content);
+            $("#result").text(content.data.hello);
+        }
+
+
+        //Test Request
+        async function newRequest() {
+            const response = await fetch('/api/latest');
+            const data = await response.json();
+            console.log(data); 
+            $("#result").text(JSON.stringify(data));
+            
+        }
+    </script>
+
+    <button onclick="newRequest()">Try it</button>
+    <div id="result">TEST</div>
+
+
+
+</body>
+
+</html>
