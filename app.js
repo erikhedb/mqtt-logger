@@ -47,14 +47,20 @@ client.on('message', function (topic, message) {
  */
  function transform(ttndata){
 
-  const deviceid      = ttndata.end_device_ids.device_id;
-  const timestamp     = ttndata.received_at;
-  const payload       = ttndata.uplink_message.decoded_payload;
-  const package = {
-      deviceid,
-      timestamp,
-      payload
-  };
-  return package;
+  try{
+    const deviceid      = ttndata.end_device_ids.device_id;
+    const timestamp     = ttndata.received_at;
+    const payload       = ttndata.uplink_message.decoded_payload;
+    const package = {
+        deviceid,
+        timestamp,
+        payload
+    };
+    return package;
+  }catch{
+    return ttndata;
+  }
+
+
 
 }
